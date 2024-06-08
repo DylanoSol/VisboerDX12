@@ -5,6 +5,11 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisboerDX12", "VisboerDX12.vcxproj", "{CAB4ED9C-9224-4B85-93A1-FA257FC9AF21}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4338B8E1-C8C2-4EB5-9A34-C51CFDC23641}"
+	ProjectSection(SolutionItems) = preProject
+		Helpers.h = Helpers.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
