@@ -45,16 +45,39 @@ struct VertexPosColor
 };
 
 
-static VertexPosColorNormal g_Vertices[8] = {
-    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-    { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
-    { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
-    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3
-    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
-    { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
-    { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
-    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
+static VertexPosColorNormal g_Vertices[24] = {
+    // Front Face
+    {{-0.5f, -0.5f,  0.5f}, { 0.0f,  0.0f,  1.0f},{ 0.0f,  1.0f,  1.0f} },
+    {{ 0.5f, -0.5f,  0.5f}, { 0.0f,  0.0f,  1.0f}, { 0.0f,  1.0f,  1.0f} },
+    {{ 0.5f,  0.5f,  0.5f}, { 0.0f,  0.0f,  1.0f},{ 0.0f,  1.0f,  1.0f} },
+    {{-0.5f,  0.5f,  0.5f}, { 0.0f,  0.0f,  1.0f}, { 0.0f,  1.0f,  1.0f} },
+    // Back Face
+    {{-0.5f, -0.5f, -0.5f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, 1.0f}},
+    {{-0.5f,  0.5f, -0.5f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, 1.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, 1.0f}},
+    {{ 0.5f, -0.5f, -0.5f}, { 0.0f,  0.0f, -1.0f}, { 0.0f,  0.0f, 1.0f}},
+    // Top Face
+    {{-0.5f,  0.5f, -0.5f}, { 0.0f,  1.0f,  0.0f}, { 1.0f,  0.0f,  1.0f}},
+    {{-0.5f,  0.5f,  0.5f}, { 0.0f,  1.0f,  0.0f}, { 1.0f,  0.0f,  1.0f}}, 
+    {{ 0.5f,  0.5f,  0.5f}, { 0.0f,  1.0f,  0.0f}, { 1.0f,  0.0f,  1.0f}}, 
+    {{ 0.5f,  0.5f, -0.5f}, { 0.0f,  1.0f,  0.0f}, { 1.0f,  0.0f,  1.0f}},
+    // Bottom Face
+    {{-0.5f, -0.5f, -0.5f}, {-0.0f, -1.0f,  0.0f}, {0.0f, 1.0f,  0.0f}}, 
+    {{ 0.5f, -0.5f, -0.5f}, {-0.0f, -1.0f,  0.0f}, {0.0f, 1.0f,  0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, {-0.0f, -1.0f,  0.0f}, {0.0f, 1.0f,  0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {-0.0f, -1.0f,  0.0f}, {0.0f, 1.0f,  0.0f}},
+    // Right Face
+    {{ 0.5f, -0.5f, -0.5f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}},
+    {{ 0.5f,  0.5f, -0.5f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}},
+    {{ 0.5f,  0.5f,  0.5f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}},
+    {{ 0.5f, -0.5f,  0.5f}, { 1.0f,  0.0f,  0.0f}, { 1.0f,  0.0f,  0.0f}},
+    // Left Face
+    {{-0.5f, -0.5f, -0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f,  1.0f,  0.0f}},
+    {{-0.5f, -0.5f,  0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f,  1.0f,  0.0f}},
+    {{-0.5f,  0.5f,  0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f,  1.0f,  0.0f}},
+    {{-0.5f,  0.5f, -0.5f}, {-1.0f,  0.0f,  0.0f}, {1.0f,  1.0f,  0.0f}}
 };
+
 
 static VertexPosColor g_VerticesWhite[8] = {
     { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 0
@@ -68,6 +91,22 @@ static VertexPosColor g_VerticesWhite[8] = {
 };
 
 static WORD g_Indicies[36] =
+{
+    // Front Face
+    0, 1, 2, 0, 2, 3,
+    // Back Face
+    4, 5, 6, 4, 6, 7,
+    // Top Face
+    8, 9, 10, 8, 10, 11,
+    // Bottom Face
+    12, 13, 14, 12, 14, 15,
+    // Right Face
+    16, 17, 18, 16, 18, 19,
+    // Left Face
+    20, 21, 22, 20, 22, 23
+};
+
+static WORD g_IndiciesWhite[36] =
 {
     0, 1, 2, 0, 2, 3,
     4, 6, 5, 4, 7, 6,
@@ -154,16 +193,6 @@ bool Tutorial2::LoadContent()
     m_VertexBufferView.SizeInBytes = sizeof(g_Vertices);
     m_VertexBufferView.StrideInBytes = sizeof(VertexPosColorNormal);
 
-    // Upload second vertex buffer data.
-    ComPtr<ID3D12Resource> secondIntermediateVertexBuffer;
-    UpdateBufferResource(commandList,
-        &m_VertexBuffer2, &secondIntermediateVertexBuffer,
-        _countof(g_VerticesWhite), sizeof(VertexPosColor), g_VerticesWhite);
-
-    // Create the vertex buffer view.
-    m_VertexBufferView2.BufferLocation = m_VertexBuffer2->GetGPUVirtualAddress();
-    m_VertexBufferView2.SizeInBytes = sizeof(g_VerticesWhite);
-    m_VertexBufferView2.StrideInBytes = sizeof(VertexPosColor);
 
     // Upload index buffer data.
     ComPtr<ID3D12Resource> intermediateIndexBuffer;
@@ -175,6 +204,29 @@ bool Tutorial2::LoadContent()
     m_IndexBufferView.BufferLocation = m_IndexBuffer->GetGPUVirtualAddress();
     m_IndexBufferView.Format = DXGI_FORMAT_R16_UINT;
     m_IndexBufferView.SizeInBytes = sizeof(g_Indicies);
+
+    // Upload second vertex buffer data.
+    ComPtr<ID3D12Resource> secondIntermediateVertexBuffer;
+    UpdateBufferResource(commandList,
+        &m_VertexBuffer2, &secondIntermediateVertexBuffer,
+        _countof(g_VerticesWhite), sizeof(VertexPosColor), g_VerticesWhite);
+
+    // Create the vertex buffer view.
+    m_VertexBufferView2.BufferLocation = m_VertexBuffer2->GetGPUVirtualAddress();
+    m_VertexBufferView2.SizeInBytes = sizeof(g_VerticesWhite);
+    m_VertexBufferView2.StrideInBytes = sizeof(VertexPosColor);
+
+    // Upload index buffer data for other object.
+    ComPtr<ID3D12Resource> secondIntermediateIndexBuffer;
+    UpdateBufferResource(commandList,
+        &m_IndexBuffer2, &secondIntermediateIndexBuffer,
+        _countof(g_IndiciesWhite), sizeof(WORD), g_IndiciesWhite);
+
+    // Create index buffer view for other object.
+    m_IndexBufferView2.BufferLocation = m_IndexBuffer2->GetGPUVirtualAddress();
+    m_IndexBufferView2.Format = DXGI_FORMAT_R16_UINT;
+    m_IndexBufferView2.SizeInBytes = sizeof(g_IndiciesWhite);
+
 
     // Create the descriptor heap for the depth-stencil view.
     D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
@@ -477,7 +529,7 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     // Set Vertex and Index buffers
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView2);
-    commandList->IASetIndexBuffer(&m_IndexBufferView);
+    commandList->IASetIndexBuffer(&m_IndexBufferView2);
 
     // Update the MVP matrix
     mvpMatrix = XMMatrixMultiply(m_ModelMatrix2, m_ViewMatrix); 
@@ -486,7 +538,7 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     // Set the MVP matrix in the shader
     commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
 
-    commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
+    commandList->DrawIndexedInstanced(_countof(g_IndiciesWhite), 1, 0, 0, 0);
 
     // Present
     {
