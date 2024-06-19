@@ -57,7 +57,7 @@ static VertexPosColor g_VerticesWhite[8] = {
     { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.0f) }, // 4
     { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 5
     { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 6
-    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 0.f, 1.f) }  // 7
+    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }  // 7
 };
 
 static WORD g_Indicies[36] =
@@ -351,7 +351,7 @@ void Tutorial2::OnUpdate(UpdateEventArgs& e)
     m_ModelMatrix = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle));
 
     // Update the model matrix of the second object
-    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixTranslation(5.f, 0.f, 5.f); 
+    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(5.f, 5.f, 5.f) ;
 
     // Update the view matrix.
     const XMVECTOR eyePosition = XMVectorSet(0, 0, -10, 1);
