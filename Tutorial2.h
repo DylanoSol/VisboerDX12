@@ -112,5 +112,8 @@ private:
 
     DirectX::XMMATRIX m_ModelMatrix2; 
 
+    // Camera slow rotation 
+    float x = 0.f; 
+
     bool m_ContentLoaded;
 };

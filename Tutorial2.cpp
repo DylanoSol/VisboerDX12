@@ -267,11 +267,14 @@ bool Tutorial2::LoadContent()
         D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
 
     // A single 32-bit constant root parameter that is used by the vertex shader.
-    CD3DX12_ROOT_PARAMETER1 rootParameters[2];
+    CD3DX12_ROOT_PARAMETER1 rootParameters[3];
     rootParameters[0].InitAsConstants(sizeof(XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-  
-    // Set second root parameter for lights. Make sure it's visible in the pixel shader. 
-    rootParameters[1].InitAsConstants(sizeof(XMFLOAT3) / 4, 1, 0, D3D12_SHADER_VISIBILITY_PIXEL);
+
+    // Store the model matrix again as a quick hack 
+    rootParameters[1].InitAsConstants(sizeof(XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+    // Set root parameter for light
+    rootParameters[2].InitAsConstants(sizeof(XMFLOAT3) / 4, 2, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
     rootSignatureDescription.Init_1_1(_countof(rootParameters), rootParameters, 0, nullptr, rootSignatureFlags);
@@ -445,6 +448,7 @@ void Tutorial2::OnUpdate(UpdateEventArgs& e)
     m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(5.f, 5.f, -5.f) ;
 
     // Update the view matrix.
+    x += 0.001f; 
     const XMVECTOR eyePosition = XMVectorSet(0, 0, 10, 1);
     const XMVECTOR focusPoint = XMVectorSet(0, 0, 0, 1);
     const XMVECTOR upDirection = XMVectorSet(0, 1, 0, 0);
@@ -522,9 +526,15 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     // Set the MVP matrix in the shader
     commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
 
+    // Set the model for the hack I mentioned earlier
+    commandList->SetGraphicsRoot32BitConstants(1, sizeof(XMMATRIX) / 4, &m_ModelMatrix, 0);
+
     // Set the light position in the shader
     XMVECTOR lightPos = m_ModelMatrix2.r[3]; 
-    commandList->SetGraphicsRoot32BitConstants(1, sizeof(XMFLOAT3) / 4, &lightPos, 0); 
+    XMFLOAT3 light; 
+    XMStoreFloat3(&light, lightPos); 
+
+    commandList->SetGraphicsRoot32BitConstants(2, sizeof(XMFLOAT3) / 4, &light, 0); 
 
     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
 
