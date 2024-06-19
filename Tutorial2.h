@@ -94,6 +94,9 @@ private:
     // Pipeline state object.
     Microsoft::WRL::ComPtr<ID3D12PipelineState> m_PipelineState;
 
+    // Pipeline state object for unlit objects 
+    Microsoft::WRL::ComPtr<ID3D12PipelineState> m_PipelineStateUnlit;
+
     D3D12_VIEWPORT m_Viewport;
     D3D12_RECT m_ScissorRect;
 

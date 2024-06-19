@@ -250,6 +250,27 @@ bool Tutorial2::LoadContent()
     };
     ThrowIfFailed(device->CreatePipelineState(&pipelineStateStreamDesc, IID_PPV_ARGS(&m_PipelineState)));
 
+    // Compile new shaders for second pipeline state object 
+    {
+
+        // Load the vertex shader.
+        ComPtr<ID3DBlob> vertexShaderBlob2;
+        ThrowIfFailed(D3DReadFileToBlob(L"LightVertexShader.cso", &vertexShaderBlob2));
+
+        // Load the pixel shader.
+        ComPtr<ID3DBlob> pixelShaderBlob2;
+        ThrowIfFailed(D3DReadFileToBlob(L"LightPixelShader.cso", &pixelShaderBlob2));
+
+        pipelineStateStream.VS = CD3DX12_SHADER_BYTECODE(vertexShaderBlob2.Get());
+        pipelineStateStream.PS = CD3DX12_SHADER_BYTECODE(pixelShaderBlob2.Get());
+
+        D3D12_PIPELINE_STATE_STREAM_DESC pipelineStateStreamDesc2 = {
+         sizeof(PipelineStateStream), &pipelineStateStream
+        };
+
+        ThrowIfFailed(device->CreatePipelineState(&pipelineStateStreamDesc2, IID_PPV_ARGS(&m_PipelineStateUnlit)));
+    }
+
     auto fenceValue = commandQueue->ExecuteCommandList(commandList);
     commandQueue->WaitForFenceValue(fenceValue);
 
@@ -434,6 +455,11 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
 
     // Render a second object but at a different position 
+
+    // Bind unlit pipeline state objects for lighting objects, only works on command queues of type DIRECT
+    commandList->SetPipelineState(m_PipelineStateUnlit.Get()); 
+
+    // Set Vertex and Index buffers
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView2);
     commandList->IASetIndexBuffer(&m_IndexBufferView);
