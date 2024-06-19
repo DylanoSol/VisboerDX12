@@ -23,15 +23,7 @@ VertexShaderOutput main(VertexPosColor IN)
 
     OUT.Position = mul(ModelViewProjectionCB.MVP, float4(IN.Position, 1.0f));
     
-    float3 lightColor = float3(1.0, 1.0, 1.0); 
-    
-    // Ambient light
-    float ambientStrength = 0.3; 
-    float3 ambientLight = ambientStrength * lightColor; 
-    
-    float3 result = IN.Color * ambientLight; 
-    
-    OUT.Color = float4(result, 1.0);
+    OUT.Color = float4(IN.Color, 1.0);
 
     return OUT;
 }
