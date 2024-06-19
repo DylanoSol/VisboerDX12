@@ -74,7 +74,12 @@ private:
     // Vertex buffer for the cube.
     Microsoft::WRL::ComPtr<ID3D12Resource> m_VertexBuffer;
     D3D12_VERTEX_BUFFER_VIEW m_VertexBufferView;
-    // Index buffer for the cube.
+
+    // Vertex buffer for the second cube.
+    Microsoft::WRL::ComPtr<ID3D12Resource> m_VertexBuffer2;
+    D3D12_VERTEX_BUFFER_VIEW m_VertexBufferView2;
+
+    // Index buffer for the cubes.
     Microsoft::WRL::ComPtr<ID3D12Resource> m_IndexBuffer;
     D3D12_INDEX_BUFFER_VIEW m_IndexBufferView;
 

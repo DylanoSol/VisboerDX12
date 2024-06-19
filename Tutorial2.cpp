@@ -49,6 +49,17 @@ static VertexPosColor g_Vertices[8] = {
     { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
 };
 
+static VertexPosColor g_VerticesWhite[8] = {
+    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 0
+    { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 1
+    { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 2
+    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 3
+    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.0f) }, // 4
+    { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 5
+    { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 6
+    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 0.f, 1.f) }  // 7
+};
+
 static WORD g_Indicies[36] =
 {
     0, 1, 2, 0, 2, 3,
@@ -67,8 +78,6 @@ Tutorial2::Tutorial2(const std::wstring& name, int width, int height, bool vSync
     , m_ContentLoaded(false)
 {
 }
-
-
 
 void Tutorial2::UpdateBufferResource(
     ComPtr<ID3D12GraphicsCommandList2> commandList,
@@ -137,6 +146,17 @@ bool Tutorial2::LoadContent()
     m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
     m_VertexBufferView.SizeInBytes = sizeof(g_Vertices);
     m_VertexBufferView.StrideInBytes = sizeof(VertexPosColor);
+
+    // Upload second vertex buffer data.
+    ComPtr<ID3D12Resource> secondIntermediateVertexBuffer;
+    UpdateBufferResource(commandList,
+        &m_VertexBuffer2, &secondIntermediateVertexBuffer,
+        _countof(g_VerticesWhite), sizeof(VertexPosColor), g_VerticesWhite);
+
+    // Create the vertex buffer view.
+    m_VertexBufferView2.BufferLocation = m_VertexBuffer2->GetGPUVirtualAddress();
+    m_VertexBufferView2.SizeInBytes = sizeof(g_VerticesWhite);
+    m_VertexBufferView2.StrideInBytes = sizeof(VertexPosColor);
 
     // Upload index buffer data.
     ComPtr<ID3D12Resource> intermediateIndexBuffer;
@@ -415,7 +435,7 @@ void Tutorial2::OnRender(RenderEventArgs& e)
 
     // Render a second object but at a different position 
     commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
+    commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView2);
     commandList->IASetIndexBuffer(&m_IndexBufferView);
 
     // Update the MVP matrix
