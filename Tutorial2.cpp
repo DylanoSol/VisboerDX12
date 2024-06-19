@@ -267,8 +267,11 @@ bool Tutorial2::LoadContent()
         D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
 
     // A single 32-bit constant root parameter that is used by the vertex shader.
-    CD3DX12_ROOT_PARAMETER1 rootParameters[1];
+    CD3DX12_ROOT_PARAMETER1 rootParameters[2];
     rootParameters[0].InitAsConstants(sizeof(XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+  
+    // Set second root parameter for lights. Make sure it's visible in the pixel shader. 
+    rootParameters[1].InitAsConstants(sizeof(XMFLOAT3) / 4, 1, 0, D3D12_SHADER_VISIBILITY_PIXEL);
 
     CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
     rootSignatureDescription.Init_1_1(_countof(rootParameters), rootParameters, 0, nullptr, rootSignatureFlags);
@@ -518,6 +521,10 @@ void Tutorial2::OnRender(RenderEventArgs& e)
 
     // Set the MVP matrix in the shader
     commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
+
+    // Set the light position in the shader
+    XMVECTOR lightPos = m_ModelMatrix2.r[3]; 
+    commandList->SetGraphicsRoot32BitConstants(1, sizeof(XMFLOAT3) / 4, &lightPos, 0); 
 
     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
 
