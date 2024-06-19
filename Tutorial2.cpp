@@ -37,6 +37,7 @@ struct VertexPosColor
     XMFLOAT3 Color;
 };
 
+
 static VertexPosColor g_Vertices[8] = {
     { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
     { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
@@ -66,6 +67,8 @@ Tutorial2::Tutorial2(const std::wstring& name, int width, int height, bool vSync
     , m_ContentLoaded(false)
 {
 }
+
+
 
 void Tutorial2::UpdateBufferResource(
     ComPtr<ID3D12GraphicsCommandList2> commandList,
@@ -327,6 +330,9 @@ void Tutorial2::OnUpdate(UpdateEventArgs& e)
     const XMVECTOR rotationAxis = XMVectorSet(0, 1, 1, 0);
     m_ModelMatrix = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle));
 
+    // Update the model matrix of the second object
+    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixTranslation(5.f, 0.f, 5.f); 
+
     // Update the view matrix.
     const XMVECTOR eyePosition = XMVectorSet(0, 0, -10, 1);
     const XMVECTOR focusPoint = XMVectorSet(0, 0, 0, 1);
@@ -401,6 +407,22 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     // Update the MVP matrix
     XMMATRIX mvpMatrix = XMMatrixMultiply(m_ModelMatrix, m_ViewMatrix);
     mvpMatrix = XMMatrixMultiply(mvpMatrix, m_ProjectionMatrix);
+
+    // Set the MVP matrix in the shader
+    commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
+
+    commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
+
+    // Render a second object but at a different position 
+    commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    commandList->IASetVertexBuffers(0, 1, &m_VertexBufferView);
+    commandList->IASetIndexBuffer(&m_IndexBufferView);
+
+    // Update the MVP matrix
+    mvpMatrix = XMMatrixMultiply(m_ModelMatrix2, m_ViewMatrix); 
+    mvpMatrix = XMMatrixMultiply(mvpMatrix, m_ProjectionMatrix); 
+
+    // Set the MVP matrix in the shader
     commandList->SetGraphicsRoot32BitConstants(0, sizeof(XMMATRIX) / 4, &mvpMatrix, 0);
 
     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
