@@ -31,6 +31,13 @@ constexpr const T& clamp(const T& val, const T& min, const T& max)
 }
 
 // Vertex data for a colored cube.
+struct VertexPosColorNormal
+{
+    XMFLOAT3 Position;
+    XMFLOAT3 Normal; 
+    XMFLOAT3 Color;
+};
+
 struct VertexPosColor
 {
     XMFLOAT3 Position;
@@ -38,15 +45,15 @@ struct VertexPosColor
 };
 
 
-static VertexPosColor g_Vertices[8] = {
-    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-    { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
-    { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
-    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3
-    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
-    { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
-    { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
-    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
+static VertexPosColorNormal g_Vertices[8] = {
+    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
+    { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
+    { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
+    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3
+    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
+    { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
+    { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
+    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }  // 7
 };
 
 static VertexPosColor g_VerticesWhite[8] = {
@@ -54,10 +61,10 @@ static VertexPosColor g_VerticesWhite[8] = {
     { XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 1
     { XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 2
     { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 3
-    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.0f) }, // 4
+    { XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 4
     { XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 5
     { XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }, // 6
-    { XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.f, 1.f, 1.f) }  // 7
+    { XMFLOAT3(1.0f, -1.0f,  1.0f),  XMFLOAT3(1.f, 1.f, 1.f) }  // 7
 };
 
 static WORD g_Indicies[36] =
@@ -140,12 +147,12 @@ bool Tutorial2::LoadContent()
     ComPtr<ID3D12Resource> intermediateVertexBuffer;
     UpdateBufferResource(commandList,
         &m_VertexBuffer, &intermediateVertexBuffer,
-        _countof(g_Vertices), sizeof(VertexPosColor), g_Vertices);
+        _countof(g_Vertices), sizeof(VertexPosColorNormal), g_Vertices);
 
     // Create the vertex buffer view.
     m_VertexBufferView.BufferLocation = m_VertexBuffer->GetGPUVirtualAddress();
     m_VertexBufferView.SizeInBytes = sizeof(g_Vertices);
-    m_VertexBufferView.StrideInBytes = sizeof(VertexPosColor);
+    m_VertexBufferView.StrideInBytes = sizeof(VertexPosColorNormal);
 
     // Upload second vertex buffer data.
     ComPtr<ID3D12Resource> secondIntermediateVertexBuffer;
@@ -187,6 +194,7 @@ bool Tutorial2::LoadContent()
     // Create the vertex input layout
     D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     };
 
@@ -261,8 +269,15 @@ bool Tutorial2::LoadContent()
         ComPtr<ID3DBlob> pixelShaderBlob2;
         ThrowIfFailed(D3DReadFileToBlob(L"LightPixelShader.cso", &pixelShaderBlob2));
 
+        // Create the vertex input layout
+        D3D12_INPUT_ELEMENT_DESC inputLayout2[] = {
+            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+            { "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+        };
+
         pipelineStateStream.VS = CD3DX12_SHADER_BYTECODE(vertexShaderBlob2.Get());
         pipelineStateStream.PS = CD3DX12_SHADER_BYTECODE(pixelShaderBlob2.Get());
+        pipelineStateStream.InputLayout = { inputLayout2, _countof(inputLayout2) };
 
         D3D12_PIPELINE_STATE_STREAM_DESC pipelineStateStreamDesc2 = {
          sizeof(PipelineStateStream), &pipelineStateStream

@@ -8,7 +8,8 @@ ConstantBuffer<ModelViewProjection> ModelViewProjectionCB : register(b0);
 struct VertexPosColor
 {
     float3 Position : POSITION;
-    float3 Color    : COLOR;
+    float3 Normal : NORMAL;
+    float3 Color : COLOR;
 };
 
 struct VertexShaderOutput
