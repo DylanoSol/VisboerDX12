@@ -267,7 +267,7 @@ bool Tutorial2::LoadContent()
         D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
 
     // A single 32-bit constant root parameter that is used by the vertex shader.
-    CD3DX12_ROOT_PARAMETER1 rootParameters[3];
+    CD3DX12_ROOT_PARAMETER1 rootParameters[4];
     rootParameters[0].InitAsConstants(sizeof(XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     // Store the model matrix again as a quick hack 
@@ -275,6 +275,9 @@ bool Tutorial2::LoadContent()
 
     // Set root parameter for light
     rootParameters[2].InitAsConstants(sizeof(XMFLOAT3) / 4, 2, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+    // Set the view position
+    rootParameters[3].InitAsConstants(sizeof(XMFLOAT3) / 4, 3, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
     rootSignatureDescription.Init_1_1(_countof(rootParameters), rootParameters, 0, nullptr, rootSignatureFlags);
@@ -445,14 +448,13 @@ void Tutorial2::OnUpdate(UpdateEventArgs& e)
     m_ModelMatrix = XMMatrixRotationAxis(rotationAxis, XMConvertToRadians(angle));
 
     // Update the model matrix of the second object
-    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(cos(x) * 5.f, 0.f, sin(x) * 5.f);
+    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(0.f, -2.f, 0.f);
 
     // Update the view matrix.
     x += 0.01f; 
-    const XMVECTOR eyePosition = XMVectorSet(0, -10, 10, 1);
     const XMVECTOR focusPoint = XMVectorSet(0, 0, 0, 1);
     const XMVECTOR upDirection = XMVectorSet(0, 1, 0, 0);
-    m_ViewMatrix = XMMatrixLookAtLH(eyePosition, focusPoint, upDirection);
+    m_ViewMatrix = XMMatrixLookAtLH(m_EyePosition, focusPoint, upDirection);
 
     // Update the projection matrix.
     float aspectRatio = GetClientWidth() / static_cast<float>(GetClientHeight());
@@ -535,6 +537,9 @@ void Tutorial2::OnRender(RenderEventArgs& e)
     XMStoreFloat3(&light, lightPos); 
 
     commandList->SetGraphicsRoot32BitConstants(2, sizeof(XMFLOAT3) / 4, &light, 0); 
+
+    // Set the view position in the shader 
+    commandList->SetGraphicsRoot32BitConstants(3, sizeof(XMFLOAT3) / 4, &m_EyePosition, 0);
 
     commandList->DrawIndexedInstanced(_countof(g_Indicies), 1, 0, 0, 0);
 

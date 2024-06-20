@@ -12,7 +12,7 @@ float4 main( PixelShaderInput IN ) : SV_Target
     float3 norm = normalize(IN.Normal.xyz); 
     
     // Ambient light
-    float ambientStrength = 0.0;
+    float ambientStrength = 0.1;
     float3 ambientLight = ambientStrength * lightColor;
     
     // Diffuse light
