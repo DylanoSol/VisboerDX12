@@ -450,11 +450,10 @@ void Tutorial2::OnUpdate(UpdateEventArgs& e)
     m_ModelMatrix = XMMatrixIdentity() * XMMatrixScaling(3.f, 3.f, 3.f); 
 
     // Update the model matrix of the second object
-    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(9.f, 2.f, 2.f);
+    m_ModelMatrix2 = XMMatrixIdentity() * XMMatrixScaling(0.3f, 0.3f, 0.3f) * XMMatrixTranslation(cosf(x) * 10.f, 2.f, sinf(x) * 10.f);
 
     // Update the view matrix.
     x += 0.001f; 
-    m_EyePosition = XMVectorSet(sinf(x) * 15.f, 2.f, cosf(x) * 15.f, 1.f); 
 
     const XMVECTOR focusPoint = XMVectorSet(0, 0, 0, 1);
     const XMVECTOR upDirection = XMVectorSet(0, 1, 0, 0);

@@ -46,10 +46,6 @@ VertexShaderOutput main(VertexPosColor IN)
     float4 position = mul(ModelViewProjectionCB.MVP, float4(IN.Position, 1.0)); 
     float4 worldPosition = mul(ModelCB.MODEL, float4(IN.Position, 1.0)); 
     
-    // Calculate normal matrix to transform the normal to world space
-    float3x3 normalMatrix; 
-    
-    
     OUT.Position = position;
     
     OUT.Color = float4(IN.Color, 1.0);
