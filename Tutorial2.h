@@ -112,7 +112,7 @@ private:
 
     DirectX::XMMATRIX m_ModelMatrix2; 
 
-    DirectX::XMVECTOR m_EyePosition = DirectX::XMVectorSet(0, 1, 15, 1);
+    DirectX::XMVECTOR m_EyePosition = DirectX::XMVectorSet(10, 2, 10, 1);
 
     // Camera slow rotation 
     float x = 0.f; 

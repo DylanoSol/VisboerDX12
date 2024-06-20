@@ -35,6 +35,7 @@ struct VertexShaderOutput
 	float4 Color    : COLOR;
     float4 Normal : NORMAL; 
     float4 LightDir : LIGHTDIRECTION; 
+    float4 ViewDir : VIEWDIRECTION; 
     float4 Position : SV_Position;
 };
 
@@ -56,6 +57,8 @@ VertexShaderOutput main(VertexPosColor IN)
     OUT.Normal = mul(ModelCB.MODEL, float4(IN.Normal, 1.0));
     
     OUT.LightDir = float4(normalize(LightPosCB.POS - worldPosition.xyz), 1.0);
+    
+    OUT.ViewDir = float4(normalize(ViewPosCB.POS - worldPosition.xyz), 1.0);
 
     return OUT;
 }
