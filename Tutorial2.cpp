@@ -263,8 +263,7 @@ bool Tutorial2::LoadContent()
         D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
         D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
         D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-        D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
-        D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
+        D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS;
 
     // A single 32-bit constant root parameter that is used by the vertex shader.
     CD3DX12_ROOT_PARAMETER1 rootParameters[4];
@@ -274,10 +273,10 @@ bool Tutorial2::LoadContent()
     rootParameters[1].InitAsConstants(sizeof(XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     // Set root parameter for light
-    rootParameters[2].InitAsConstants(sizeof(XMFLOAT3) / 4, 2, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+    rootParameters[2].InitAsConstants(sizeof(XMFLOAT3) / 4, 2, 0, D3D12_SHADER_VISIBILITY_PIXEL);
 
     // Set the view position
-    rootParameters[3].InitAsConstants(sizeof(XMFLOAT3) / 4, 3, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+    rootParameters[3].InitAsConstants(sizeof(XMFLOAT3) / 4, 3, 0, D3D12_SHADER_VISIBILITY_PIXEL);
 
     CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSignatureDescription;
     rootSignatureDescription.Init_1_1(_countof(rootParameters), rootParameters, 0, nullptr, rootSignatureFlags);
