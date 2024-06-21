@@ -270,7 +270,7 @@ bool Tutorial2::LoadContent()
     rootParameters[0].InitAsConstants(sizeof(XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 
     // Store the model matrix again as a quick hack 
-    rootParameters[1].InitAsConstants(sizeof(XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+    rootParameters[1].InitAsConstants(sizeof(XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_PIXEL);
 
     // Set root parameter for light
     rootParameters[2].InitAsConstants(sizeof(XMFLOAT3) / 4, 2, 0, D3D12_SHADER_VISIBILITY_PIXEL);
