@@ -72,9 +72,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Dependencies\stb;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -165,6 +167,7 @@
     <ClInclude Include="Dependencies\JeremiahDX12\Headers\KeyCodes.h" />
     <ClInclude Include="Dependencies\JeremiahDX12\Headers\Window.h" />
     <ClInclude Include="Dependencies\JeremiahDX12\resource.h" />
+    <ClInclude Include="Dependencies\stb\stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Tutorial2.h" />
   </ItemGroup>

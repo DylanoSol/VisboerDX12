@@ -4,6 +4,7 @@
 #include <CommandQueue.h>
 #include <Helpers.h>
 #include <Window.h>
+#include "Texture.h"
 
 #include <wrl.h>
 using namespace Microsoft::WRL;
@@ -204,6 +205,9 @@ bool Tutorial2::LoadContent()
     m_IndexBufferView.BufferLocation = m_IndexBuffer->GetGPUVirtualAddress();
     m_IndexBufferView.Format = DXGI_FORMAT_R16_UINT;
     m_IndexBufferView.SizeInBytes = sizeof(g_Indicies);
+
+    // Load the texture for object 1
+    Texture tex = Texture("D:/Gamedevving/Repositories/VisboerDX12/VisboerDX12/VisboerDX12/Textures/brolyweed.png");
 
     // Upload second vertex buffer data.
     ComPtr<ID3D12Resource> secondIntermediateVertexBuffer;
