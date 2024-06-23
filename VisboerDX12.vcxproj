@@ -146,6 +146,7 @@
     <ClCompile Include="Dependencies\JeremiahDX12\Source\HighResolutionClock.cpp" />
     <ClCompile Include="Dependencies\JeremiahDX12\Source\Window.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Tutorial2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="Dependencies\JeremiahDX12\Headers\KeyCodes.h" />
     <ClInclude Include="Dependencies\JeremiahDX12\Headers\Window.h" />
     <ClInclude Include="Dependencies\JeremiahDX12\resource.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Tutorial2.h" />
   </ItemGroup>
   <ItemGroup>
